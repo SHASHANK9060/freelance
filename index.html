@@ -1,40 +1,465 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patti Calculation</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freelancing Marketplace for IT Professionals</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #000, #333);
+      color: #fff;
+      padding: 40px 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3rem;
+      font-weight: bold;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ff6f61;
+      transform: translateY(-3px);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Search Bar */
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0;
+    }
+
+    .search-bar input {
+      width: 70%;
+      padding: 15px;
+      border: 2px solid #ddd;
+      border-radius: 30px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .search-bar input:focus {
+      border-color: #ff6f61;
+      box-shadow: 0 0 10px rgba(255, 111, 97, 0.3);
+    }
+
+    .search-bar button {
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #ff6f61, #ff4a3d);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      margin-left: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .search-bar button:hover {
+      background: linear-gradient(135deg, #ff4a3d, #ff6f61);
+      transform: scale(1.05);
+    }
+
+    /* Course List */
+    .course-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .course-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 15px;
+      padding: 25px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .course-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .course-card h3 {
+      margin: 0 0 15px;
+      color: #1d1d1f;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .course-card p {
+      margin: 10px 0;
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .course-card button {
+      background: linear-gradient(135deg, #007aff, #0047bb);
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .course-card button:hover {
+      background: linear-gradient(135deg, #0047bb, #007aff);
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, #000, #333);
+      color: #fff;
+      text-align: center;
+      padding: 40px 0;
+      margin-top: 60px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    /* Scrollable Sections */
+    .scroll-section {
+      padding: 80px 0;
+      text-align: center;
+      background: #f5f5f7;
+    }
+
+    .scroll-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #1d1d1f;
+      font-weight: bold;
+    }
+
+    .scroll-section p {
+      font-size: 1.2rem;
+      color: #666;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .course-list {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav a {
+        font-size: 1rem;
+        margin: 0 10px;
+      }
+
+      .search-bar input {
+        width: 60%;
+      }
+
+      .search-bar button {
+        padding: 12px 20px;
+      }
+    }
+
+    /* Auth Container */
+    .auth-container {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      width: 400px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin: 40px auto;
+    }
+
+    .auth-container:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      background: linear-gradient(135deg, #007aff, #0047bb);
+    }
+
+    .tabs button {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      background: transparent;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .tabs button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .tabs button.active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Form */
+    .form-container {
+      padding: 30px;
+    }
+
+    .form-container h2 {
+      margin: 0 0 20px;
+      font-size: 1.8rem;
+      color: #1d1d1f;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-container input:focus {
+      border-color: #007aff;
+      box-shadow: 0 0 10px rgba(0, 122, 255, 0.3);
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #007aff, #0047bb);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background: linear-gradient(135deg, #0047bb, #007aff);
+      transform: scale(1.05);
+    }
+
+    .form-container p {
+      margin: 15px 0 0;
+      color: #666;
+    }
+
+    .form-container p a {
+      color: #007aff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .form-container p a:hover {
+      color: #0047bb;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .auth-container {
+        width: 90%;
+      }
+
+      .tabs button {
+        font-size: 1rem;
+        padding: 12px;
+      }
+
+      .form-container h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Patti Calculation</h1>
-        <form id="calculationForm">
-            <div class="form-group">
-                <label for="net">Enter Net Weight (in kgs):</label>
-                <input type="number" id="net" placeholder="Enter net weight" required>
-            </div>
+  <!-- Header -->
+  <header>
+    <h1>Freelancing Marketplace for IT Professionals</h1>
+  </header>
 
-            <div class="form-group">
-                <label for="bags">Enter Total Bags:</label>
-                <input type="number" id="bags" placeholder="Enter total bags" required>
-            </div>
+  <!-- Navigation -->
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Find Freelancers</a>
+    <a href="#">Post a Job</a>
+    <a href="#">Courses</a>
+    <a href="#" onclick="showLoginPage()">Login</a>
+    <a href="#" onclick="showLoginPage()">Sign Up</a>
+  </nav>
 
-            <div class="form-group">
-                <label for="price">Enter Price of Rice per kg (₹):</label>
-                <input type="number" id="price" placeholder="Enter price per kg" step="0.01" required>
-            </div>
-
-            <button type="submit">Calculate</button>
-        </form>
-
-        <div id="result" class="result">
-            <h2>Results</h2>
-            <p><strong>Total Amount:</strong> ₹<span id="totalAmount">-</span></p>
-            <p><strong>Final Amount after Expenses:</strong> ₹<span id="finalAmount">-</span></p>
-        </div>
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search for freelancers, skills, or courses...">
+      <button>Search</button>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Course List -->
+    <h2 style="text-align: center; font-size: 2.5rem; color: #1d1d1f; margin-bottom: 40px;">Featured IT Courses</h2>
+    <div class="course-list">
+      <!-- Course Card 1 -->
+      <div class="course-card">
+        <h3>Web Development Bootcamp</h3>
+        <p>Learn HTML, CSS, JavaScript, and React from scratch.</p>
+        <p>Price: ₹999</p>
+        <button onclick="showLoginPage()">Enroll Now</button>
+      </div>
+
+      <!-- Course Card 2 -->
+      <div class="course-card">
+        <h3>Data Science Masterclass</h3>
+        <p>Master Python, Machine Learning, and Data Analysis.</p>
+        <p>Price: ₹1499</p>
+        <button onclick="showLoginPage()">Enroll Now</button>
+      </div>
+
+      <!-- Course Card 3 -->
+      <div class="course-card">
+        <h3>Mobile App Development</h3>
+        <p>Build apps with Flutter and Firebase.</p>
+        <p>Price: ₹799</p>
+        <button onclick="showLoginPage()">Enroll Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login/Signup Page (Hidden by Default) -->
+  <div id="loginPage" style="display: none;">
+    <div class="auth-container">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="active" onclick="switchTab('login')">Login</button>
+        <button onclick="switchTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login" class="form-container">
+        <h2>Login</h2>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <button>Login</button>
+        <p>Don't have an account? <a href="#" onclick="switchTab('signup')">Sign Up</a></p>
+      </div>
+
+      <!-- Signup Form -->
+      <div id="signup" class="form-container" style="display: none;">
+        <h2>Sign Up</h2>
+        <input type="text" placeholder="Full Name" required>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <input type="password" placeholder="Confirm Password" required>
+        <button>Sign Up</button>
+        <p>Already have an account? <a href="#" onclick="switchTab('login')">Login</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2023 Freelancing Marketplace. All rights reserved.</p>
+  </footer>
+
+  <!-- Script for Redirect and Tab Switching -->
+  <script>
+    // Function to show the login/signup page
+    function showLoginPage() {
+      document.getElementById('loginPage').style.display = 'block';
+      document.querySelector('.container').style.display = 'none';
+      document.querySelector('header').style.display = 'none';
+      document.querySelector('nav').style.display = 'none';
+      document.querySelector('footer').style.display = 'none';
+    }
+
+    // Function to switch between login and signup tabs
+    function switchTab(tabName) {
+      // Hide all forms
+      document.querySelectorAll('.form-container').forEach(form => {
+        form.style.display = 'none';
+      });
+
+      // Show the selected form
+      document.getElementById(tabName).style.display = 'block';
+
+      // Update active tab
+      document.querySelectorAll('.tabs button').forEach(button => {
+        button.classList.remove('active');
+      });
+      document.querySelector(`.tabs button[onclick="switchTab('${tabName}')"]`).classList.add('active');
+    }
+  </script>
 </body>
 </html>
